@@ -982,6 +982,9 @@ INT wifi_hal_setRadioOperatingParameters(wifi_radio_index_t index, wifi_radio_op
     }
 
 try_hostap_config_update:
+    if (radio->configured && is_channel_changed) {
+        radio->configuration_in_progress = true;
+    }
     if (radio->configured && radio->oper_param.enable) {
         update_hostap_radio_param(radio, operationParam);
     }
@@ -1044,7 +1047,7 @@ Exit:
     }
 
 #endif // defined(FEATURE_HOSTAP_MGMT_FRAME_CTRL) &&  (HOSTAPD_VERSION >= 210)
-
+    radio->configuration_in_progress = false;
     return RETURN_OK;
 
 reload_config:
@@ -1053,13 +1056,17 @@ reload_config:
     }
     if (update_hostap_config_params(radio) != RETURN_OK ) {
         wifi_hal_error_print("%s:%d:Failed to update hostap config params, Got into a bad state radioindex : %d\n", __func__, __LINE__, index);
+        radio->configuration_in_progress = false;
         return RETURN_ERR;
     }
 
     if (nl80211_update_wiphy(radio) != 0) {
         wifi_hal_error_print("%s:%d:Failed to update radio : %d\n", __func__, __LINE__, index);
+        radio->configuration_in_progress = false;
         return RETURN_ERR;
     }
+
+    radio->configuration_in_progress = false;
     return RETURN_ERR;
 
 }
