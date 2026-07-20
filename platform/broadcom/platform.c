@@ -1011,6 +1011,7 @@ int platform_set_radio_pre_init(wifi_radio_index_t index, wifi_radio_operationPa
     char temp_buff[BUF_SIZE];
     char param_name[NVRAM_NAME_SIZE];
     char cmd[BUFLEN_128];
+    //int enable;
     wifi_radio_info_t *radio;
     radio = get_radio_by_rdk_index(index);
     if (radio == NULL) {
@@ -1066,6 +1067,22 @@ int platform_set_radio_pre_init(wifi_radio_index_t index, wifi_radio_operationPa
         wifi_hal_dbg_print("%s:%d Skip this radio %d. This is in sleeping mode\n", __FUNCTION__, __LINE__, index);
         return 0;
     }
+
+    
+    wifi_hal_dbg_print("%s():%d Enabling per_vap_config_rateset in radio index %d\n", __FUNCTION__, __LINE__, index);
+#if 0    
+    memset(temp_buff, 0 ,sizeof(temp_buff));
+    sprintf(temp_buff, "wl%d", index);
+    enable = TRUE;
+
+    if (wl_iovar_set(temp_buff, "per_vap_config_rateset", &enable, sizeof(enable)) < 0) {
+        wifi_hal_error_print("%s:%d failed to set per_vap_config_rateset %d for %s, err: %d (%s)\n", __func__,
+            __LINE__, enable, temp_buff, errno, strerror(errno));
+        return RETURN_ERR;
+    }
+#endif
+    sprintf(cmd, "wl -i wl%d per_vap_config_rateset 1", index);
+    system(cmd);
 
     if (radio->oper_param.countryCode != operationParam->countryCode) {
         memset(temp_buff, 0 ,sizeof(temp_buff));
