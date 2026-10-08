@@ -2457,28 +2457,6 @@ int get_radio_variant_str_from_int(unsigned int variant, char *variant_str)
     return RETURN_OK;
 }
 
-int get_vap_mode_str_from_int_mode(unsigned char vap_mode, char *vap_mode_str)
-{
-    switch (vap_mode) {
-    case wifi_vap_mode_ap:
-        strcpy(vap_mode_str, "ap");
-        break;
-
-    case wifi_vap_mode_sta:
-        strcpy(vap_mode_str, "sta");
-        break;
-
-    case wifi_vap_mode_monitor:
-        strcpy(vap_mode_str, "monitor");
-        break;
-
-    default:
-        strcpy(vap_mode_str, "none");
-        break;
-    }
-
-    return RETURN_OK;
-}
 
 int get_security_mode_support_radius(int mode)
 {

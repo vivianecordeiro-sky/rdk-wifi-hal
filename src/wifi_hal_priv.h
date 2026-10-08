@@ -1183,7 +1183,6 @@ int is_backhaul_interface(wifi_interface_info_t *interface);
 void update_vap_mode(wifi_interface_info_t *interface);
 int get_interface_name_from_vap_index(unsigned int vap_index, char *interface_name);
 int get_ap_vlan_id(char *interface_name);
-int get_vap_mode_str_from_int_mode(unsigned char vap_mode, char *vap_mode_str);
 int get_security_mode_str_from_int(wifi_security_modes_t security_mode, unsigned int vap_index, char *security_mode_str);
 int get_security_mode_int_from_str(char *security_mode_str,char *mfp_str,wifi_security_modes_t *security_mode);
 int get_security_encryption_mode_str_from_int(wifi_encryption_method_t encryption_mode, unsigned int vap_index, char *encryption_mode_str);

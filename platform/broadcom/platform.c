@@ -2550,11 +2550,6 @@ int platform_create_vap(wifi_radio_index_t r_index, wifi_vap_info_map_t *map)
         prepare_param_name(param_name, interface_name, "_ifname");
         set_string_nvram_param(param_name, interface_name);
 
-        memset(temp_buff, 0 ,sizeof(temp_buff));
-        prepare_param_name(param_name, interface_name, "_mode");
-        get_vap_mode_str_from_int_mode(map->vap_array[index].vap_mode, temp_buff);
-        set_string_nvram_param(param_name, temp_buff);
-
         prepare_param_name(param_name, interface_name, "_radio");
         set_decimal_nvram_param(param_name, 1);
 
